@@ -13,7 +13,7 @@ type MicroCompetenceData struct {
 	MicroCompetence models.MicroCompetence
 }
 
-func (app *application) createMicroCompetence(w http.ResponseWriter, r *http.Request) {
+func (app *application) createMicroCompetency(w http.ResponseWriter, r *http.Request) {
 	var microCompetence models.MicroCompetence
 	err := json.NewDecoder(r.Body).Decode(&microCompetence)
 	if err != nil {
@@ -33,7 +33,7 @@ func (app *application) createMicroCompetence(w http.ResponseWriter, r *http.Req
 	app.infoLog.Println("Micro competence was created")
 }
 
-func (app *application) getMicroCompetenceById(w http.ResponseWriter, r *http.Request) {
+func (app *application) getMicroCompetencyById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	app.infoLog.Println(vars)
 	id, ok := vars["id"]
@@ -48,7 +48,7 @@ func (app *application) getMicroCompetenceById(w http.ResponseWriter, r *http.Re
 	app.getMicroCompetence(w, r, url)
 }
 
-func (app *application) getMicroCompetenceByName(w http.ResponseWriter, r *http.Request) {
+func (app *application) getMicroCompetencyByName(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name, ok := vars["name"]
 	if !ok {
@@ -83,8 +83,8 @@ func (app *application) getMicroCompetence(w http.ResponseWriter, r *http.Reques
 }
 
 func (app *application) getAllMicroCompetencies(w http.ResponseWriter, r *http.Request) {
-	app.infoLog.Println("URL: ", app.apis.microCompetence)
-	resp, err := app.getApiContent(app.apis.microCompetence)
+	app.infoLog.Println("URL: ", app.apis.microCompetencies)
+	resp, err := app.getApiContent(app.apis.microCompetencies)
 	if err != nil {
 		app.errorLog.Println("Error getting micro competencies: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -103,7 +103,7 @@ func (app *application) getAllMicroCompetencies(w http.ResponseWriter, r *http.R
 	app.infoLog.Printf("Micro competencies: %v\n", microCompetencies)
 }
 
-func (app *application) updateMicroCompetence(w http.ResponseWriter, r *http.Request) {
+func (app *application) updateMicroCompetency(w http.ResponseWriter, r *http.Request) {
 	var microCompetence models.MicroCompetence
 	err := json.NewDecoder(r.Body).Decode(&microCompetence)
 	if err != nil {
@@ -124,7 +124,7 @@ func (app *application) updateMicroCompetence(w http.ResponseWriter, r *http.Req
 	app.infoLog.Printf("MicroCompetence with id %d was updated\n", microCompetence.ID)
 }
 
-func (app *application) deleteMicroCompetence(w http.ResponseWriter, r *http.Request) {
+func (app *application) deleteMicroCompetency(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
 	if !ok {
