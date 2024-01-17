@@ -2,7 +2,7 @@ FROM golang:1.21.6-alpine AS builder
 
 RUN adduser -D -g '' appuser
 
-WORKDIR /opt/web
+WORKDIR /opt/app
 
 COPY go.mod go.sum ./
 
@@ -20,10 +20,8 @@ LABEL org.opencontainers.image.source https://github.com/cpprian/blog_posts_with
 
 COPY --from=builder /etc/passwd /etc/passwd
 
-WORKDIR /opt/web
+WORKDIR /opt/app
 
 COPY --from=builder --chown=appuser:1000 /go/bin/stucoin-bff stucoin-bff
-
-COPY ./ui ui
 
 ENTRYPOINT ["./stucoin-bff"]
