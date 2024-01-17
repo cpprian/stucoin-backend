@@ -1,0 +1,14 @@
+apiVersion: v2
+version: 0.1.0
+appVersion: v0.1.0
+name: stucoin
+description: A Helm chart for Kubernetes
+home: https://github.com/cpprian/stucoin-backend
+type: application
+dependencies:
+  - condition: mongodb.enabled
+    name: mongodb
+    repository: https://charts.bitnami.com/bitnami
+    version: 13.6.x
+sources:
+  - https://github.com/cpprian/stucoin-backend

@@ -1,0 +1,14 @@
+mongodb:
+  enabled: true
+
+  image:
+    repository: mongo
+    tag: 4.2.23
+
+  readinessProbe:
+    enabled: false
+  livenessProbe:
+    enabled: false
+
+  persistence:
+    mountPath: /data/db
