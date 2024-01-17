@@ -13,7 +13,7 @@ mongodb:
   persistence:
     mountPath: /data/db
 
-users:
+tasks:
   args:
     - "-mongoURI"
     - "mongodb://stucoin-mongodb:27017/"
@@ -22,3 +22,17 @@ rewards:
   args:
     - "-mongoURI"
     - "mongodb://stucoin-mongodb:27017/"
+
+micro-competencies:
+  args:
+    - "-mongoURI"
+    - "mongodb://stucoin-mongodb:27017/"
+
+bff:
+  args:
+    - "-tasksURI"
+    - "http://stucoin-tasks/tasks"
+    - "-rewardsURI"
+    - "http://stucoin-rewards/rewards"
+    - "-microCompetenciesURI"
+    - "http://stucoin-micro-competencies/micro-competencies"

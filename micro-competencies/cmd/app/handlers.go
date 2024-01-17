@@ -67,7 +67,7 @@ func (app *application) findById(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-func (app *application) findByTitle(w http.ResponseWriter, r *http.Request) {
+func (app *application) findByName(w http.ResponseWriter, r *http.Request) {
 	// Get name from request
 	name := mux.Vars(r)["name"]
 	app.infoLog.Printf("Getting task with name %s\n", name)

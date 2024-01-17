@@ -18,6 +18,7 @@ type Task struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty"`
 	Title       string             `bson:"title"`
 	Description string             `bson:"description"`
+	CoverImage  string             `bson:"cover_image"`
 	Points      int                `bson:"points"`
 	Completed   EnumCompleted      `bson:"completed"`
 	CreatedAt   time.Time          `bson:"created_at"`

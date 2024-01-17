@@ -11,8 +11,12 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     version: 13.6.x
   - name: tasks
-    version: 0.x.0
+    version: 0.x.x
   - name: rewards
-    version: 0.x.0
+    version: 0.x.x
+  - name: micro-competencies
+    version: 0.x.x
+  - name: bff
+    version: 0.x.x
 sources:
   - https://github.com/cpprian/stucoin-backend
