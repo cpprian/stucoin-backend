@@ -30,9 +30,9 @@ micro-competencies:
 
 bff:
   args:
-    - "-tasksURI"
+    - "-tasksAPI"
     - "http://stucoin-tasks/tasks"
-    - "-rewardsURI"
+    - "-rewardsAPI"
     - "http://stucoin-rewards/rewards"
-    - "-microCompetenciesURI"
+    - "-microCompetenciesAPI"
     - "http://stucoin-micro-competencies/micro-competencies"
