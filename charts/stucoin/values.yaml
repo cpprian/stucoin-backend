@@ -12,3 +12,13 @@ mongodb:
 
   persistence:
     mountPath: /data/db
+
+users:
+  args:
+    - "-mongoURI"
+    - "mongodb://stucoin-mongodb:27017/"
+  
+rewards:
+  args:
+    - "-mongoURI"
+    - "mongodb://stucoin-mongodb:27017/"

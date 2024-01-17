@@ -5,6 +5,7 @@ on: push
 env: 
     REGISTRY: ghcr.io
     TASKS_IMAGE_NAME: "stucoin-tasks"
+    REWARDS_IMAGE_NAME: "stucoin-rewards"
 
 jobs:
     build:
@@ -43,4 +44,14 @@ jobs:
                   tags: |
                       cpprian/${{ env.TASKS_IMAGE_NAME }}
                       ghcr.io/cpprian/${{ env.TASKS_IMAGE_NAME }}
+
+            - name: Build and push the tasks image
+              uses: docker/build-push-action@v3
+              with:
+                  context: ./rewards/
+                  file: ./rewards/Dockerfile
+                  push: true
+                  tags: |
+                      cpprian/${{ env.REWARDS_IMAGE_NAME }}
+                      ghcr.io/cpprian/${{ env.REWARDS_IMAGE_NAME }}
         
