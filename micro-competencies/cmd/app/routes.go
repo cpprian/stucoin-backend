@@ -9,7 +9,7 @@ func (app *application) routes() *mux.Router {
 	router.HandleFunc("/micro-competencies/{id}", app.findById).Methods("GET")
 	router.HandleFunc("/micro-competencies", app.insertMicroCompetence).Methods("POST")
 	router.HandleFunc("/micro-competencies/{id}", app.updateMicroCompetence).Methods("PUT")
-	router.HandleFunc("/micro-competencies/{title}", app.findByTitle).Methods("GET")
+	router.HandleFunc("/micro-competencies/{name}", app.findByName).Methods("GET")
 
 	return router
 }
