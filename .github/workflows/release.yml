@@ -6,6 +6,7 @@ env:
     REGISTRY: ghcr.io
     TASKS_IMAGE_NAME: "stucoin-tasks"
     REWARDS_IMAGE_NAME: "stucoin-rewards"
+    MICRO_COMPETENCIES_IMAGE_NAME: "stucoin-micro-competencies"
 
 jobs:
     build:
@@ -45,7 +46,7 @@ jobs:
                       cpprian/${{ env.TASKS_IMAGE_NAME }}
                       ghcr.io/cpprian/${{ env.TASKS_IMAGE_NAME }}
 
-            - name: Build and push the tasks image
+            - name: Build and push the rewards image
               uses: docker/build-push-action@v3
               with:
                   context: ./rewards/
@@ -55,3 +56,12 @@ jobs:
                       cpprian/${{ env.REWARDS_IMAGE_NAME }}
                       ghcr.io/cpprian/${{ env.REWARDS_IMAGE_NAME }}
         
+            - name: Build and push the micro-competencies image
+              uses: docker/build-push-action@v3
+              with:
+                  context: ./micro-competencies/
+                  file: ./micro-competencies/Dockerfile
+                  push: true
+                  tags: |
+                      cpprian/${{ env.MICRO_COMPETENCIES_IMAGE_NAME }}
+                      ghcr.io/cpprian/${{ env.MICRO_COMPETENCIES_IMAGE_NAME }}
