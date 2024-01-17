@@ -1,4 +1,4 @@
-module github.com/cpprian/stucoin-backend/tasks
+module github.com/cpprian/stucoin-backend/micro-competencies
 
 go 1.21.6
 

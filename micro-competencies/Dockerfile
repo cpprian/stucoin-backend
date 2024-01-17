@@ -10,7 +10,7 @@ RUN go mod download && \
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -a -installsuffix cgo -o /go/bin/stucoin-tasks ./cmd/app
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -a -installsuffix cgo -o /go/bin/stucoin-micro-competencies ./cmd/app
 
 
 FROM alpine:3.19.0
@@ -18,8 +18,8 @@ LABEL language="golang"
 LABEL org.opencontainers.image.source https://github.com/cpprian/stucoin-backend
 
 COPY --from=builder /etc/passwd /etc/passwd
-COPY --from=builder --chown=elf:1000 /go/bin/stucoin-tasks /stucoin-tasks
+COPY --from=builder --chown=elf:1000 /go/bin/stucoin-micro-competencies /stucoin-micro-competencies
 
 USER elf
 
-ENTRYPOINT ["./stucoin-tasks"]
+ENTRYPOINT ["./stucoin-micro-competencies"]

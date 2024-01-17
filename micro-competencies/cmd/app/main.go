@@ -9,7 +9,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/cpprian/stucoin-backend/tasks/pkg/models/mongodb"
+	"github.com/cpprian/stucoin-backend/micro-competencies/pkg/models/mongodb"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -17,14 +17,14 @@ import (
 type application struct {
 	errorLog *log.Logger
 	infoLog  *log.Logger
-	tasks    *mongodb.TaskModel
+	microCompetencies    *mongodb.MicroCompetenceModel
 }
 
 func main() {
 	serverAddr := flag.String("serverAddr", "", "HTTP server network address")
 	serverPort := flag.Int("serverPort", 4000, "HTTP server network port")
 	mongoURI := flag.String("mongoURI", "mongodb://localhost:27017", "MongoDB connection URI")
-	mongoDB := flag.String("mongoDB", "tasks", "MongoDB database name")
+	mongoDB := flag.String("mongoDB", "micro-competencies", "MongoDB database name")
 	enableCredentials := flag.Bool("enableCredentials", false, "Enable credentials for mongodb connection")
 	flag.Parse()
 
@@ -65,8 +65,8 @@ func main() {
 	app := &application{
 		infoLog: infoLog,
 		errorLog: errorLog,
-		tasks: &mongodb.TaskModel{
-			C: client.Database(*mongoDB).Collection("tasks"),
+		microCompetencies: &mongodb.MicroCompetenceModel{
+			C: client.Database(*mongoDB).Collection("micro-competencies"),
 		},
 	}
 
