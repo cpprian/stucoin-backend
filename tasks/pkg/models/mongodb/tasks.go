@@ -30,7 +30,6 @@ func (m *TaskModel) All() ([]models.Task, error) {
 	return tasks, nil
 }
 
-// FindByID finds a task by id
 func (m *TaskModel) FindById(id string) (*models.Task, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -50,7 +49,6 @@ func (m *TaskModel) FindById(id string) (*models.Task, error) {
 	return &task, nil
 }
 
-// FindByTaskname finds a task by taskname
 func (m *TaskModel) FindByTitle(title string) (*models.Task, error) {
 	ctx := context.TODO()
 	var task models.Task
@@ -65,7 +63,6 @@ func (m *TaskModel) FindByTitle(title string) (*models.Task, error) {
 	return &task, nil
 }
 
-// InsertTask inserts a new task to the database
 func (m *TaskModel) InsertTask(task *models.Task) (*mongo.InsertOneResult, error) {
 	ctx := context.TODO()
 
@@ -77,11 +74,26 @@ func (m *TaskModel) InsertTask(task *models.Task) (*mongo.InsertOneResult, error
 	return res, nil
 }
 
-// UpdateTask updates the task with the given id when posts, comments or subscribes are added/removed/updated
 func (m *TaskModel) UpdateTask(task *models.Task) (*mongo.UpdateResult, error) {
 	ctx := context.TODO()
 
 	res, err := m.C.UpdateOne(ctx, bson.M{"_id": task.ID}, bson.M{"$set": task})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (m *TaskModel) DeleteTask(id string) (*mongo.DeleteResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.DeleteOne(ctx, bson.M{"_id": p})
 	if err != nil {
 		return nil, err
 	}

@@ -154,3 +154,23 @@ func (app *application) updateTask(w http.ResponseWriter, r *http.Request) {
 	// Send response
 	w.WriteHeader(http.StatusOK)
 }
+
+func (app *application) deleteTask(w http.ResponseWriter, r *http.Request) {
+	// Get task id from request
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Deleting task with id %s\n", id)
+
+	// Delete task
+	_, err := app.tasks.DeleteTask(id)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("Task was deleted with id:", id)
+
+	// Send response
+	w.WriteHeader(http.StatusOK)
+}
