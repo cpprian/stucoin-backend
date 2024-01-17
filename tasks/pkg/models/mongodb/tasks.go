@@ -55,7 +55,7 @@ func (m *TaskModel) FindByTitle(title string) (*models.Task, error) {
 	ctx := context.TODO()
 	var task models.Task
 
-	if err := m.C.FindOne(ctx, bson.M{"Title": title}).Decode(&task); err != nil {
+	if err := m.C.FindOne(ctx, bson.M{"title": title}).Decode(&task); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, errors.New("no task found")
 		}

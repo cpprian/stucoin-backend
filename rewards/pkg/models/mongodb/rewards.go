@@ -55,7 +55,7 @@ func (m *RewardModel) FindByName(name string) (*models.Reward, error) {
 	ctx := context.TODO()
 	var reward models.Reward
 
-	if err := m.C.FindOne(ctx, bson.M{"Name": name}).Decode(&reward); err != nil {
+	if err := m.C.FindOne(ctx, bson.M{"name": name}).Decode(&reward); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, errors.New("no reward found")
 		}
