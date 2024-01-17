@@ -16,7 +16,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -a -installsuffix cgo -o 
 
 FROM alpine:3.19.0
 LABEL language="golang"
-LABEL org.opencontainers.image.source https://github.com/cpprian/blog_posts_with_markdown
+LABEL org.opencontainers.image.source https://github.com/cpprian/stucoin-backend
 
 COPY --from=builder /etc/passwd /etc/passwd
 
