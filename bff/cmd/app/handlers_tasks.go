@@ -23,6 +23,14 @@ func (app *application) createTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Creating task: %v\n", task)
+	err = app.postApiContent(app.apis.tasks, task)
+	if err != nil {
+		app.errorLog.Println("Error creating task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("Task was created")
 }
 
 func (app *application) getTaskById(w http.ResponseWriter, r *http.Request) {
@@ -105,6 +113,15 @@ func (app *application) updateTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Updating task: %v\n", task)
+	url := fmt.Sprintf("%s/%d", app.apis.tasks, task.ID)
+	err = app.putApiContent(url, task)
+	if err != nil {
+		app.errorLog.Println("Error updating task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Task with id %d was updated\n", task.ID)
 }
 
 func (app *application) deleteTask(w http.ResponseWriter, r *http.Request) {
@@ -117,4 +134,13 @@ func (app *application) deleteTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Deleting task with id %s\n", id)
+	url := fmt.Sprintf("%s/%s", app.apis.tasks, id)
+	err := app.deleteApiContent(url)
+	if err != nil {
+		app.errorLog.Println("Error deleting task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Task with id %s was deleted\n", id)
 }
