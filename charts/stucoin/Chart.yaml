@@ -1,7 +1,7 @@
 apiVersion: v2
-version: 0.1.0
-appVersion: v0.1.0
 name: stucoin
+version: 0.1.0
+appVersion: latest
 description: A Helm chart for Kubernetes
 home: https://github.com/cpprian/stucoin-backend
 type: application
