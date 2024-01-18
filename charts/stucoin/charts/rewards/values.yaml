@@ -2,11 +2,10 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/cpprian/stucoin-rewards
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   tag: ""
 
-imagePullSecrets: 
-  - name: mysecretname
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
