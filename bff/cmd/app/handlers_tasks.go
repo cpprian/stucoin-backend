@@ -78,8 +78,6 @@ func (app *application) getTask(w http.ResponseWriter, r *http.Request, url stri
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-
-	app.infoLog.Printf("Task: %v\n", task)
 }
 
 func (app *application) getAllTasks(w http.ResponseWriter, r *http.Request) {
