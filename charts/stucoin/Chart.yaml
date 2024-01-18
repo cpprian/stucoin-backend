@@ -2,7 +2,7 @@ apiVersion: v2
 name: stucoin
 version: 0.1.0
 appVersion: latest
-description: A Helm chart for Kubernetes
+description: A Helm chart to deploy the stucoin service
 home: https://github.com/cpprian/stucoin-backend
 type: application
 dependencies:
@@ -14,9 +14,9 @@ dependencies:
     version: 0.x.x
   - name: rewards
     version: 0.x.x
-  - name: micro-competencies
-    version: 0.x.x
   - name: bff
+    version: 0.x.x
+  - name: micro-competencies
     version: 0.x.x
 sources:
   - https://github.com/cpprian/stucoin-backend

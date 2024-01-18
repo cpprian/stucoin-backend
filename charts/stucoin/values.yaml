@@ -1,38 +1,47 @@
 mongodb:
   enabled: true
 
-  image:
+  image: 
     repository: mongo
     tag: 4.2.23
-
+    
+  auth:
+    enabled: false
+  
   readinessProbe:
     enabled: false
+  
   livenessProbe:
     enabled: false
 
   persistence:
     mountPath: /data/db
 
-tasks:
-  args:
-    - "-mongoURI"
-    - "mongodb://stucoin-mongodb:27017/"
-  
-rewards:
+# Blogposts users values
+users:
   args:
     - "-mongoURI"
     - "mongodb://stucoin-mongodb:27017/"
 
-micro-competencies:
-  args:
-    - "-mongoURI"
-    - "mongodb://stucoin-mongodb:27017/"
-
-bff:
+# Blogposts website values
+website:
   args:
     - "-tasksAPI"
-    - "http://stucoin-tasks/tasks"
+    - "http://stucoin-users/tasks"
     - "-rewardsAPI"
-    - "http://stucoin-rewards/rewards"
+    - "http://stucoin-posts/rewards"
     - "-microCompetenciesAPI"
-    - "http://stucoin-micro-competencies/micro-competencies"
+    - "http://stucoin-comments/micro-competencies"
+
+# Blogposts posts values
+posts:
+  args:
+    - "-mongoURI"
+    - "mongodb://stucoin-mongodb:27017/"
+
+# Blogposts comments values
+comments:
+  args:
+    - "-mongoURI"
+    - "mongodb://stucoin-mongodb:27017/"
+    
