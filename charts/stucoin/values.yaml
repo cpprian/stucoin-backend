@@ -34,5 +34,5 @@ bff:
     - "http://stucoin-tasks/tasks"
     - "-rewardsAPI"
     - "http://stucoin-rewards/rewards"
-    - "-microCompetenciesAPI"
+    - "--microCompetenciesAPI"
     - "http://stucoin-micro-competencies/micro-competencies"
