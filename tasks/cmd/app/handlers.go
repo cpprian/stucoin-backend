@@ -54,6 +54,7 @@ func (app *application) getAllTeacherTasks(w http.ResponseWriter, r *http.Reques
 	}
 
 	app.infoLog.Println("\nAll tasks were sent")
+	app.infoLog.Println("\nTasks:", tasks)
 
 	// Send response
 	w.Header().Set("Content-Type", "application/json")

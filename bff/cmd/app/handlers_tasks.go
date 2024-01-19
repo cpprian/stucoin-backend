@@ -110,7 +110,19 @@ func (app *application) getAllTasks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.infoLog.Printf("Tasks: %v\n", tasks)
+	app.infoLog.Printf("Tasks: %+v\n", tasks)
+
+	body, err := json.Marshal(tasks)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("Body to send: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
 }
 
 func (app *application) getAllTasksByOwnerId(w http.ResponseWriter, r *http.Request) {
@@ -140,13 +152,16 @@ func (app *application) getAllTasksByOwnerId(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	body, err := io.ReadAll(resp.Body)
+	app.infoLog.Printf("Tasks: %+v\n", tasks)
+
+	body, err := json.Marshal(tasks)
 	if err != nil {
-		app.errorLog.Println("Error reading response body: ", err)
+		app.errorLog.Println("Error marshalling tasks: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	app.infoLog.Println("Response: ", string(body))
+
+	app.infoLog.Println("Body to send: ", string(body))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(body)
