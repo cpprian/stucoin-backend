@@ -114,7 +114,7 @@ func (app *application) insertTask(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println("\nTask:", task)
 
 	// Insert task
-	_, err = app.tasks.InsertTask(&task)
+	resp, err := app.tasks.InsertTask(&task)
 	if err != nil {
 		app.errorLog.Println("Error:", err)
 		app.serverError(w, err)
@@ -122,10 +122,11 @@ func (app *application) insertTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.infoLog.Println("Task was inserted with data:", task)
+	app.infoLog.Printf("Task was inserted with data %+v and id %p\n", task, resp.InsertedID)
 
 	// Send response
 	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(resp.InsertedID.(string)))
 }
 
 func (app *application) updateTask(w http.ResponseWriter, r *http.Request) {

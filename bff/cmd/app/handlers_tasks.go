@@ -23,7 +23,7 @@ func (app *application) createTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Creating task: %v\n", task)
-	err = app.postApiContent(app.apis.tasks, task)
+	resp, err := app.postApiContent(app.apis.tasks, task)
 	if err != nil {
 		app.errorLog.Println("Error creating task: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -31,6 +31,9 @@ func (app *application) createTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Println("Task was created")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(resp.Body)
 }
 
 func (app *application) getTaskById(w http.ResponseWriter, r *http.Request) {
