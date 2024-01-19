@@ -23,7 +23,7 @@ func (app *application) createMicroCompetency(w http.ResponseWriter, r *http.Req
 	}
 
 	app.infoLog.Printf("Creating micro competence: %v\n", microCompetence)
-	err = app.postApiContent(app.apis.microCompetencies, microCompetence)
+	_, err = app.postApiContent(app.apis.microCompetencies, microCompetence)
 	if err != nil {
 		app.errorLog.Println("Error creating micro competence: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

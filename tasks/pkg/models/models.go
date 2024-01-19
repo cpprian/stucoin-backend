@@ -12,6 +12,7 @@ const (
 	Completed   EnumCompleted = "COMLETED"
 	Incompleted EnumCompleted = "INCOMPLETED"
 	Aborted     EnumCompleted = "ABORTED"
+	Accepted    EnumCompleted = "ACCEPTED"
 )
 
 type Task struct {

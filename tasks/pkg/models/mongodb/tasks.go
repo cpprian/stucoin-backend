@@ -30,6 +30,22 @@ func (m *TaskModel) All() ([]models.Task, error) {
 	return tasks, nil
 }
 
+func (m *TaskModel) AllTeacherTasks(owner string) ([]models.Task, error) {
+	ctx := context.TODO()
+	var tasks []models.Task
+
+	cursor, err := m.C.Find(ctx, bson.M{"owner": owner})
+	if err != nil {
+		return nil, err
+	}
+
+	if err = cursor.All(ctx, &tasks); err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}
+
 func (m *TaskModel) FindById(id string) (*models.Task, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {

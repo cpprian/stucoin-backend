@@ -15,19 +15,19 @@ func (app *application) getApiContent(url string) (*http.Response, error) {
 	return resp, nil
 }
 
-func (app *application) postApiContent(url string, data interface{}) error {
+func (app *application) postApiContent(url string, data interface{}) (*http.Response, error) {
 	b, err := json.Marshal(data)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	app.infoLog.Printf("Posting content %v to %s\n", data, url)
-	_, err = http.Post(url, "application/json", strings.NewReader(string(b)))
+	resp, err := http.Post(url, "application/json", strings.NewReader(string(b)))
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return resp, nil
 }
 
 func (app *application) putApiContent(url string, data interface{}) error {
@@ -45,10 +45,10 @@ func (app *application) putApiContent(url string, data interface{}) error {
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 
 	return nil
 }
@@ -62,10 +62,10 @@ func (app *application) deleteApiContent(url string) error {
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 
 	return nil
 }

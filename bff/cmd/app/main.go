@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/handlers"
 )
 
 type apis struct {
@@ -42,12 +44,17 @@ func main() {
 	srv := &http.Server{
 		Addr:     serverURI,
 		ErrorLog: app.errorLog,
-		Handler:  app.routes(),
+		Handler:  handlers.CORS(
+			handlers.AllowedOrigins([]string{"*"}),
+			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+			handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
+		)(app.routes()),
 		IdleTimeout: time.Minute,
 		ReadTimeout: 5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
 
+	app.infoLog.Printf("Enable CORS");
 	app.infoLog.Printf("Starting server on %s", serverURI)
 	err := srv.ListenAndServe()
 	app.errorLog.Fatal(err)

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/cpprian/stucoin-backend/tasks/pkg/models"
@@ -23,14 +24,25 @@ func (app *application) createTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Creating task: %v\n", task)
-	err = app.postApiContent(app.apis.tasks, task)
+	resp, err := app.postApiContent(app.apis.tasks, task)
 	if err != nil {
 		app.errorLog.Println("Error creating task: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-
+	defer resp.Body.Close()
 	app.infoLog.Println("Task was created")
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		app.errorLog.Println("Error reading response body: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Println("Response: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
 }
 
 func (app *application) getTaskById(w http.ResponseWriter, r *http.Request) {
@@ -98,7 +110,61 @@ func (app *application) getAllTasks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.infoLog.Printf("Tasks: %v\n", tasks)
+	app.infoLog.Printf("Tasks: %+v\n", tasks)
+
+	body, err := json.Marshal(tasks)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("Body to send: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
+}
+
+func (app *application) getAllTasksByOwnerId(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	ownerId, ok := vars["owner"]
+	if !ok {
+		app.errorLog.Println("Error getting task owner id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("URL: ", app.apis.tasks)
+	url := fmt.Sprintf("%s/teacher/%s", app.apis.tasks, ownerId)
+	resp, err := app.getApiContent(url)
+	if err != nil {
+		app.errorLog.Println("Error getting tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close();
+
+	var tasks []models.Task
+	err = json.NewDecoder(resp.Body).Decode(&tasks)
+	if err != nil {
+		app.errorLog.Println("Error decoding tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Tasks: %+v\n", tasks)
+
+	body, err := json.Marshal(tasks)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("Body to send: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
 }
 
 func (app *application) updateTask(w http.ResponseWriter, r *http.Request) {

@@ -23,7 +23,7 @@ func (app *application) createReward(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Creating reward: %v\n", reward)
-	err = app.postApiContent(app.apis.rewards, reward)
+	_, err = app.postApiContent(app.apis.rewards, reward)
 	if err != nil {
 		app.errorLog.Println("Error creating reward: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
