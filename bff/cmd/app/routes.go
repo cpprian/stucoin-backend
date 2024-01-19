@@ -1,8 +1,13 @@
 package main
 
-import "github.com/gorilla/mux"
+import (
+	"net/http"
 
-func (app *application) routes() *mux.Router {
+	"github.com/gorilla/mux"
+	"github.com/rs/cors"
+)
+
+func (app *application) routes() http.Handler {
 	router := mux.NewRouter()
 
 	// tasks routes
@@ -29,5 +34,5 @@ func (app *application) routes() *mux.Router {
 	router.HandleFunc("/micro-competencies/{id:[0-9]+}", app.updateMicroCompetency).Methods("PUT")
 	router.HandleFunc("/micro-competencies/{id:[0-9]+}", app.deleteMicroCompetency).Methods("DELETE")
 
-	return router
+	return cors.Default().Handler(router)
 }

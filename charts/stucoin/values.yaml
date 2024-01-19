@@ -17,30 +17,26 @@ mongodb:
   persistence:
     mountPath: /data/db
 
-# Blogposts users values
-users:
+tasks:
   args:
     - "-mongoURI"
     - "mongodb://stucoin-mongodb:27017/"
 
-# Blogposts website values
-website:
+bff:
   args:
     - "-tasksAPI"
-    - "http://stucoin-users/tasks"
+    - "http://stucoin-tasks/tasks"
     - "-rewardsAPI"
-    - "http://stucoin-posts/rewards"
+    - "http://stucoin-rewards/rewards"
     - "-microCompetenciesAPI"
-    - "http://stucoin-comments/micro-competencies"
+    - "http://stucoin-micro-competencies/micro-competencies"
 
-# Blogposts posts values
-posts:
+rewards:
   args:
     - "-mongoURI"
     - "mongodb://stucoin-mongodb:27017/"
 
-# Blogposts comments values
-comments:
+micro-competencies:
   args:
     - "-mongoURI"
     - "mongodb://stucoin-mongodb:27017/"
