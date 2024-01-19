@@ -6,11 +6,39 @@ import (
 
 	"github.com/cpprian/stucoin-backend/tasks/pkg/models"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func (app *application) all(w http.ResponseWriter, r *http.Request) {
 	// Get all tasks
 	tasks, err := app.tasks.All()
+	if err != nil {
+		app.errorLog.Println("Error getting all tasks: ", err)
+		app.serverError(w, err)
+		return
+	}
+
+	// Convert task list into json encoding
+	b, err := json.Marshal(tasks)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("\nAll tasks were sent")
+
+	// Send response
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(b)
+}
+
+func (app *application) getAllTeacherTasks(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["owner"]
+	app.infoLog.Printf("Getting all tasks from teacher with id %s\n", id)
+
+	tasks, err := app.tasks.AllTeacherTasks(id)
 	if err != nil {
 		app.errorLog.Println("Error getting all tasks: ", err)
 		app.serverError(w, err)
@@ -124,9 +152,26 @@ func (app *application) insertTask(w http.ResponseWriter, r *http.Request) {
 
 	app.infoLog.Printf("Task was inserted with data %+v and id %p\n", task, resp.InsertedID)
 
-	// Send response
+	// Encode response as JSON
+	responseData := struct {
+		InsertedID string `json:"insertedID"`
+	}{
+		InsertedID: resp.InsertedID.(primitive.ObjectID).Hex(),
+	}
+	app.infoLog.Println("\nResponse:", responseData)
+
+	encodedResponse, err := json.Marshal(responseData)
+	if err != nil {
+		app.errorLog.Println("Error encoding response:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Send JSON response
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(resp.InsertedID.(string)))
+	w.Write(encodedResponse)
 }
 
 func (app *application) updateTask(w http.ResponseWriter, r *http.Request) {

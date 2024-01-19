@@ -17,6 +17,7 @@ func (app *application) routes() http.Handler {
 	router.HandleFunc("/tasks/{title}", app.getTaskByTitle).Methods("GET")
 	router.HandleFunc("/tasks/{id:[0-9]+}", app.updateTask).Methods("PUT")
 	router.HandleFunc("/tasks/{id:[0-9]+}", app.deleteTask).Methods("DELETE")
+	router.HandleFunc("/tasks/teacher/{owner}", app.getAllTasksByOwnerId).Methods("GET")
 
 	// rewards routes
 	router.HandleFunc("/rewards", app.getAllRewards).Methods("GET")
