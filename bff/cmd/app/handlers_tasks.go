@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/cpprian/stucoin-backend/tasks/pkg/models"
@@ -29,11 +30,19 @@ func (app *application) createTask(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-
+	defer resp.Body.Close()
 	app.infoLog.Println("Task was created")
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		app.errorLog.Println("Error reading response body: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Println("Response: ", string(body))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(resp.Body)
+	w.Write(body)
 }
 
 func (app *application) getTaskById(w http.ResponseWriter, r *http.Request) {
