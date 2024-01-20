@@ -249,3 +249,32 @@ func (app *application) updateCoverImageById(w http.ResponseWriter, r *http.Requ
 
 	app.infoLog.Printf("Cover image for task with id %s was updated\n", id)
 }
+
+func (app *application) updateContentById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	var content models.Content
+	err := json.NewDecoder(r.Body).Decode(&content)
+	if err != nil {
+		app.errorLog.Println("Error decoding task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Updating content for task with id %s\n", id)
+	url := fmt.Sprintf("%s/content/%s", app.apis.tasks, id)
+	err = app.putApiContent(url, content)
+	if err != nil {
+		app.errorLog.Println("Error updating content for task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Content for task with id %s was updated\n", id)
+}

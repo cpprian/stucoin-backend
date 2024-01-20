@@ -19,6 +19,7 @@ func (app *application) routes() http.Handler {
 	router.HandleFunc("/tasks/{id}", app.deleteTask).Methods("DELETE")
 	router.HandleFunc("/tasks/teacher/{owner}", app.getAllTasksByOwnerId).Methods("GET")
 	router.HandleFunc("/tasks/cover/{id}", app.updateCoverImageById).Methods("PUT")
+	router.HandleFunc("/tasks/content/{id}", app.updateContentById).Methods("PUT")
 
 	// rewards routes
 	router.HandleFunc("/rewards", app.getAllRewards).Methods("GET")

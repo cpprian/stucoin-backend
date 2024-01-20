@@ -132,3 +132,19 @@ func (m *TaskModel) UpdateCoverImageById(id string, coverImage models.CoverImage
 
 	return res, nil
 }
+
+func (m *TaskModel) UpdateContentById(id string, content models.Content) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"content": content.Content}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

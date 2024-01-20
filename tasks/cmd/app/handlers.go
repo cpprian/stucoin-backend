@@ -249,3 +249,30 @@ func (app *application) updateCoverImageById(w http.ResponseWriter, r *http.Requ
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (app *application) updateContentById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Updating content from task with id %s\n", id)
+
+	var content models.Content
+	err := json.NewDecoder(r.Body).Decode(&content)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("\nContent:", content)
+	_, err = app.tasks.UpdateContentById(id, content)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("Content was updated from task with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}

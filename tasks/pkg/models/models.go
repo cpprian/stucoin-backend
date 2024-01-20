@@ -34,3 +34,7 @@ type Task struct {
 type CoverImage struct {
 	CoverImage string `bson:"cover_image"`
 }
+
+type Content struct {
+	Content string `bson:"content"`
+}
