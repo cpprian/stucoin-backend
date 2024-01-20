@@ -60,20 +60,6 @@ func (app *application) getTaskById(w http.ResponseWriter, r *http.Request) {
 	app.getTask(w, r, url)
 }
 
-func (app *application) getTaskByTitle(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	title, ok := vars["title"]
-	if !ok {
-		app.errorLog.Println("Error getting task title")
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	app.infoLog.Printf(("Getting task with title %s\n"), title)
-	url := fmt.Sprintf("%s/%s", app.apis.tasks, title)
-	app.getTask(w, r, url)
-}
-
 func (app *application) getTask(w http.ResponseWriter, r *http.Request, url string) {
 	resp, err := app.getApiContent(url)
 	if err != nil {
@@ -316,6 +302,7 @@ func (app *application) saveFilesById(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+	app.infoLog.Printf("Saving file: %v\n", r.Body)
 
 	var files models.File
 	err := json.NewDecoder(r.Body).Decode(&files)

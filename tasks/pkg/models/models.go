@@ -26,8 +26,7 @@ type Task struct {
 	UpdatedAt   time.Time          `bson:"updated_at"`
 	Owner       string             `bson:"owner"`
 	InCharge    string             `bson:"in_charge"`
-	Files       []string           `bson:"files"`
-	Images      []string           `bson:"images"`
+	Files       []File             `bson:"files"`
 	Tags        []string           `bson:"tags"`
 }
 
