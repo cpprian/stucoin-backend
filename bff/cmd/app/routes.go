@@ -21,6 +21,7 @@ func (app *application) routes() http.Handler {
 	router.HandleFunc("/tasks/cover/{id}", app.updateCoverImageById).Methods("PUT")
 	router.HandleFunc("/tasks/content/{id}", app.updateContentById).Methods("PUT")
 	router.HandleFunc("/tasks/title/{id}", app.updateTitleById).Methods("PUT")
+	router.HandleFunc("/tasks/files/{id}", app.saveFilesById).Methods("POST")
 
 	// rewards routes
 	router.HandleFunc("/rewards", app.getAllRewards).Methods("GET")

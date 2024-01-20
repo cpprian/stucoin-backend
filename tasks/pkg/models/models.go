@@ -44,7 +44,9 @@ type Title struct {
 }
 
 type File struct {
-	File string `bson:"file"`
+	Name string `bson:"file"`
+	Path string `bson:"path"`
+	Size int64  `bson:"size"`
 }
 
 type Files []File

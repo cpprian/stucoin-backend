@@ -165,7 +165,7 @@ func (m *TaskModel) UpdateTitleById(id string, title models.Title) (*mongo.Updat
 	return res, nil
 }
 
-func (m *TaskModel) SaveFilesById(id string, files models.Files) (*mongo.UpdateResult, error) {
+func (m *TaskModel) SaveFilesById(id string, file models.File) (*mongo.UpdateResult, error) {
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
@@ -173,7 +173,7 @@ func (m *TaskModel) SaveFilesById(id string, files models.Files) (*mongo.UpdateR
 
 	ctx := context.TODO()
 
-	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$push": bson.M{"files": bson.M{"$each": files}}})
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$push": bson.M{"files": file}})
 	if err != nil {
 		return nil, err
 	}
