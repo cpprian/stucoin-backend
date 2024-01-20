@@ -5,7 +5,7 @@ go 1.21.6
 require (
 	github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240117154734-7bd36438c2d9
 	github.com/cpprian/stucoin-backend/rewards v0.0.0-20240117154734-7bd36438c2d9
-	github.com/cpprian/stucoin-backend/tasks v0.0.0-20240117154734-7bd36438c2d9
+	github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120113419-d24002db913d
 	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	github.com/rs/cors v1.10.1
