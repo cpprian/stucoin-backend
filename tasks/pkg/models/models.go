@@ -42,3 +42,9 @@ type Content struct {
 type Title struct {
 	Title string `bson:"title"`
 }
+
+type Image struct {
+	Image string `bson:"image"`
+}
+
+type Images []Image

@@ -164,3 +164,20 @@ func (m *TaskModel) UpdateTitleById(id string, title models.Title) (*mongo.Updat
 
 	return res, nil
 }
+
+func (m *TaskModel) SaveImagesByTaskId(id string, images models.Images) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"images": images}})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
