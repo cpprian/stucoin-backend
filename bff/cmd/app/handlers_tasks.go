@@ -278,3 +278,32 @@ func (app *application) updateContentById(w http.ResponseWriter, r *http.Request
 
 	app.infoLog.Printf("Content for task with id %s was updated\n", id)
 }
+
+func (app *application) updateTitleById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	var title models.Title
+	err := json.NewDecoder(r.Body).Decode(&title)
+	if err != nil {
+		app.errorLog.Println("Error decoding task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Updating title for task with id %s\n", id)
+	url := fmt.Sprintf("%s/title/%s", app.apis.tasks, id)
+	err = app.putApiContent(url, title)
+	if err != nil {
+		app.errorLog.Println("Error updating title for task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Title for task with id %s was updated\n", id)
+}

@@ -10,6 +10,8 @@ github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120114036-33ef403d0ccd h1:c
 github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120114036-33ef403d0ccd/go.mod h1:rMEdpXpC9Ggs05Srw+y0vBRUsVq5EKQ/TDC+5ctBV7k=
 github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120121436-8a1710440379 h1:IK1lmLqIZ/1krxEHKL/gpUQAClHJ3O6Vcl1BpBOuPEo=
 github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120121436-8a1710440379/go.mod h1:rMEdpXpC9Ggs05Srw+y0vBRUsVq5EKQ/TDC+5ctBV7k=
+github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120125255-0c2cdad1ac90 h1:t/xhZcxN7A741HlNbjY5A83XsTmUvcFwqBSfo81rTFs=
+github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120125255-0c2cdad1ac90/go.mod h1:rMEdpXpC9Ggs05Srw+y0vBRUsVq5EKQ/TDC+5ctBV7k=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/felixge/httpsnoop v1.0.3 h1:s/nj+GCswXYzN5v2DpNMuMQYe+0DDwt5WVCU6CWBdXk=
 github.com/felixge/httpsnoop v1.0.3/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=

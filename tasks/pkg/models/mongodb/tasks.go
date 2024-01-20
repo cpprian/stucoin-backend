@@ -141,7 +141,7 @@ func (m *TaskModel) UpdateContentById(id string, content models.Content) (*mongo
 
 	ctx := context.TODO()
 
-	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"content": content.Content}})
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"description": content.Content}})
 	if err != nil {
 		return nil, err
 	}
