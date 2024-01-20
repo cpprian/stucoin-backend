@@ -42,3 +42,9 @@ type Content struct {
 type Title struct {
 	Title string `bson:"title"`
 }
+
+type File struct {
+	File string `bson:"file"`
+}
+
+type Files []File
