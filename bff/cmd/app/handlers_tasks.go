@@ -307,3 +307,32 @@ func (app *application) updateTitleById(w http.ResponseWriter, r *http.Request) 
 
 	app.infoLog.Printf("Title for task with id %s was updated\n", id)
 }
+
+func (app *application) saveFilesById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	var files models.File
+	err := json.NewDecoder(r.Body).Decode(&files)
+	if err != nil {
+		app.errorLog.Println("Error decoding task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Saving files for task with id %s\n", id)
+	url := fmt.Sprintf("%s/files/%s", app.apis.tasks, id)
+	_, err = app.postApiContent(url, files)
+	if err != nil {
+		app.errorLog.Println("Error saving files for task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Files for task with id %s were saved\n", id)
+}

@@ -308,8 +308,8 @@ func (app *application) saveFilesById(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	app.infoLog.Printf("Saving files from task with id %s\n", id)
 
-	var files models.Files
-	err := json.NewDecoder(r.Body).Decode(&files)
+	var file models.File
+	err := json.NewDecoder(r.Body).Decode(&file)
 	if err != nil {
 		app.errorLog.Println("Error:", err)
 		app.serverError(w, err)
@@ -317,8 +317,8 @@ func (app *application) saveFilesById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.infoLog.Println("\nFiles:", files)
-	_, err = app.tasks.SaveFilesById(id, files)
+	app.infoLog.Println("\nFiles:", file)
+	_, err = app.tasks.SaveFilesById(id, file)
 	if err != nil {
 		app.errorLog.Println("Error:", err)
 		app.serverError(w, err)
