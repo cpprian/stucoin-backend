@@ -276,3 +276,30 @@ func (app *application) updateContentById(w http.ResponseWriter, r *http.Request
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (app *application) updateTitleById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Updating title from task with id %s\n", id)
+
+	var title models.Title
+	err := json.NewDecoder(r.Body).Decode(&title)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("\nTitle:", title)
+	_, err = app.tasks.UpdateTitleById(id, title)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("Title was updated from task with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}

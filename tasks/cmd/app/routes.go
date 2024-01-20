@@ -14,6 +14,7 @@ func (app *application) routes() *mux.Router {
 	router.HandleFunc("/tasks/teacher/{owner}", app.getAllTeacherTasks).Methods("GET")
 	router.HandleFunc("/tasks/cover/{id}", app.updateCoverImageById).Methods("PUT")
 	router.HandleFunc("/tasks/content/{id}", app.updateContentById).Methods("PUT")
+	router.HandleFunc("/tasks/title/{id}", app.updateTitleById).Methods("PUT")
 
 	return router
 }

@@ -148,3 +148,19 @@ func (m *TaskModel) UpdateContentById(id string, content models.Content) (*mongo
 
 	return res, nil
 }
+
+func (m *TaskModel) UpdateTitleById(id string, title models.Title) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"title": title.Title}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

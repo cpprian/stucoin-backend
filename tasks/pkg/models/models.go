@@ -38,3 +38,7 @@ type CoverImage struct {
 type Content struct {
 	Content string `bson:"content"`
 }
+
+type Title struct {
+	Title string `bson:"title"`
+}
