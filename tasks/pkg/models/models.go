@@ -30,3 +30,7 @@ type Task struct {
 	Images      []string           `bson:"images"`
 	Tags        []string           `bson:"tags"`
 }
+
+type CoverImage struct {
+	CoverImage string `bson:"cover_image"`
+}

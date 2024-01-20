@@ -116,3 +116,19 @@ func (m *TaskModel) DeleteTask(id string) (*mongo.DeleteResult, error) {
 
 	return res, nil
 }
+
+func (m *TaskModel) UpdateCoverImageById(id string, coverImage models.CoverImage) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"cover_image": coverImage.CoverImage}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

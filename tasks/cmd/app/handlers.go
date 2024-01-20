@@ -221,3 +221,31 @@ func (app *application) deleteTask(w http.ResponseWriter, r *http.Request) {
 	// Send response
 	w.WriteHeader(http.StatusOK)
 }
+
+func (app *application) updateCoverImageById(w http.ResponseWriter, r *http.Request) {
+	// Get task id from request
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Updating cover image from task with id %s\n", id)
+
+	var coverImage models.CoverImage
+	err := json.NewDecoder(r.Body).Decode(&coverImage)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("\nCover image:", coverImage)
+	_, err = app.tasks.UpdateCoverImageById(id, coverImage)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("Cover image was updated from task with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}

@@ -90,6 +90,18 @@ func (app *application) getTask(w http.ResponseWriter, r *http.Request, url stri
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+
+	body, err := json.Marshal(task)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("Body to send: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
 }
 
 func (app *application) getAllTasks(w http.ResponseWriter, r *http.Request) {
@@ -185,7 +197,7 @@ func (app *application) updateTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.infoLog.Printf("Task with id %d was updated\n", task.ID)
+	app.infoLog.Printf("Task with id %v was updated\n", task.ID)
 }
 
 func (app *application) deleteTask(w http.ResponseWriter, r *http.Request) {
@@ -207,4 +219,33 @@ func (app *application) deleteTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Task with id %s was deleted\n", id)
+}
+
+func (app *application) updateCoverImageById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	var coverImage models.CoverImage
+	err := json.NewDecoder(r.Body).Decode(&coverImage)
+	if err != nil {
+		app.errorLog.Println("Error decoding task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Updating cover image for task with id %s\n", id)
+	url := fmt.Sprintf("%s/cover/%s", app.apis.tasks, id)
+	err = app.putApiContent(url, coverImage)
+	if err != nil {
+		app.errorLog.Println("Error updating cover image for task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Cover image for task with id %s was updated\n", id)
 }
