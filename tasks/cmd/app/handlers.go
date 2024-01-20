@@ -303,3 +303,30 @@ func (app *application) updateTitleById(w http.ResponseWriter, r *http.Request) 
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (app *application) saveFilesById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Saving files from task with id %s\n", id)
+
+	var files models.Files
+	err := json.NewDecoder(r.Body).Decode(&files)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("\nFiles:", files)
+	_, err = app.tasks.SaveFilesById(id, files)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("Files were saved from task with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}
