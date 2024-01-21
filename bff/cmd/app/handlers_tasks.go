@@ -449,3 +449,33 @@ func (app *application) rejectTaskById(w http.ResponseWriter, r *http.Request) {
 
 	app.infoLog.Printf("Task with id %s was rejected\n", id)
 }
+
+func (app *application) updatePointsById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error updating task points id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Printf("Updating task points: %v\n", r.Body)
+
+	var points models.Points
+	err := json.NewDecoder(r.Body).Decode(&points)
+	if err != nil {
+		app.errorLog.Println("Error decoding task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Updating points for task with id %s\n", id)
+	url := fmt.Sprintf("%s/points/%s", app.apis.tasks, id)
+	err = app.putApiContent(url, points)
+	if err != nil {
+		app.errorLog.Println("Error updating points for task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Points for task with id %s were updated\n", id)
+}

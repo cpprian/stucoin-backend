@@ -27,6 +27,7 @@ func (app *application) routes() http.Handler {
 	router.HandleFunc("/tasks/complete/{id}", app.completeTaskById).Methods("PUT")
 	router.HandleFunc("/tasks/accept/{id}", app.acceptTaskById).Methods("PUT")
 	router.HandleFunc("/tasks/reject/{id}", app.rejectTaskById).Methods("PUT")
+	router.HandleFunc("/tasks/points/{id}", app.updatePointsById).Methods("PUT")
 
 	// rewards routes
 	router.HandleFunc("/rewards", app.getAllRewards).Methods("GET")
