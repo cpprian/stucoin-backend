@@ -6,10 +6,10 @@ github.com/cpprian/stucoin-backend/rewards v0.0.0-20240117154734-7bd36438c2d9 h1
 github.com/cpprian/stucoin-backend/rewards v0.0.0-20240117154734-7bd36438c2d9/go.mod h1:RT/7iuPd0gQ9vcWdltnsvUCvQ8hLfQ2rb6Qlb9HWbVQ=
 github.com/cpprian/stucoin-backend/rewards v0.0.0-20240120114036-33ef403d0ccd h1:uqPXtO/lQ6nLb6aJ/Mg8bVUwqomp6t2lQVmSBKPQxbw=
 github.com/cpprian/stucoin-backend/rewards v0.0.0-20240120114036-33ef403d0ccd/go.mod h1:RT/7iuPd0gQ9vcWdltnsvUCvQ8hLfQ2rb6Qlb9HWbVQ=
-github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120173013-8ac05d4e4416 h1:8T6gCDg751cjcLn2leXltz5o+t13j+XrULXjcE8PUL8=
-github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120173013-8ac05d4e4416/go.mod h1:rMEdpXpC9Ggs05Srw+y0vBRUsVq5EKQ/TDC+5ctBV7k=
 github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120175702-5a1aeaee5cc6 h1:VUugK5gkujB/f+KVOMVN1gEFBl/hoQcBLpIIbhrX2QI=
 github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120175702-5a1aeaee5cc6/go.mod h1:rMEdpXpC9Ggs05Srw+y0vBRUsVq5EKQ/TDC+5ctBV7k=
+github.com/cpprian/stucoin-backend/tasks v0.0.0-20240121023351-13e2a13e59a3 h1:YQYynaO6Ixgo4epOFkL9hC2A3AJdjmYQoY4qQ2Pdn7I=
+github.com/cpprian/stucoin-backend/tasks v0.0.0-20240121023351-13e2a13e59a3/go.mod h1:rMEdpXpC9Ggs05Srw+y0vBRUsVq5EKQ/TDC+5ctBV7k=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/felixge/httpsnoop v1.0.3 h1:s/nj+GCswXYzN5v2DpNMuMQYe+0DDwt5WVCU6CWBdXk=
 github.com/felixge/httpsnoop v1.0.3/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=

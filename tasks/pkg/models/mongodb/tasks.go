@@ -260,3 +260,19 @@ func (m *TaskModel) RejectTaskById(id string) (*mongo.UpdateResult, error) {
 
 	return res, nil
 }
+
+func (m *TaskModel) UpdatePointsById(id string, points models.Points) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+	
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"points": points.Points}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

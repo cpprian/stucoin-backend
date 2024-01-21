@@ -11,7 +11,7 @@ require (
 )
 
 require (
-	github.com/cpprian/stucoin-backend/tasks v0.0.0-20240120175702-5a1aeaee5cc6 // indirect
+	github.com/cpprian/stucoin-backend/tasks v0.0.0-20240121023351-13e2a13e59a3 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	go.mongodb.org/mongo-driver v1.13.1 // indirect
 )

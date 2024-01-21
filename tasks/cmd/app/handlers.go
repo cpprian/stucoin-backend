@@ -430,3 +430,28 @@ func (app *application) rejectTaskById(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (app *application) updatePointsById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Updating points from task with id %s\n", id)
+
+	var points models.Points
+	err := json.NewDecoder(r.Body).Decode(&points)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("\nPoints:", points)
+	_, err = app.tasks.UpdatePointsById(id, points)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("Points were updated from task with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}

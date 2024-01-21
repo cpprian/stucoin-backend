@@ -53,3 +53,7 @@ type Files []File
 type InCharge struct {
 	InCharge string `bson:"in_charge"`
 }
+
+type Points struct {
+	Points int `bson:"points"`
+}
