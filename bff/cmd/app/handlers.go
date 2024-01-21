@@ -53,12 +53,20 @@ func (app *application) putApiContent(url string, data interface{}) error {
 	return nil
 }
 
-func (app *application) deleteApiContent(url string) error {
-	app.infoLog.Printf("Deleting content from %s\n", url)
-	req, err := http.NewRequest(http.MethodDelete, url, nil)
+func (app *application) deleteApiContent(url string, data interface{}) error {
+	b, err := json.Marshal(data)
 	if err != nil {
 		return err
 	}
+
+	app.infoLog.Printf("Deleting content from %s\n", url)
+	req, err := http.NewRequest(http.MethodDelete, url, strings.NewReader(string(b)))
+	if err != nil {
+		return err
+	}
+
+	app.infoLog.Printf("Deleting content %v from %s\n", b, url)
+	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)

@@ -197,7 +197,7 @@ func (app *application) deleteTask(w http.ResponseWriter, r *http.Request) {
 
 	app.infoLog.Printf("Deleting task with id %s\n", id)
 	url := fmt.Sprintf("%s/%s", app.apis.tasks, id)
-	err := app.deleteApiContent(url)
+	err := app.deleteApiContent(url, nil)
 	if err != nil {
 		app.errorLog.Println("Error deleting task: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -322,4 +322,130 @@ func (app *application) saveFilesById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Files for task with id %s were saved\n", id)
+}
+
+func (app *application) deleteFilesById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Printf("Deleting file: %v\n", r.Body)
+
+	var file models.File
+	err := json.NewDecoder(r.Body).Decode(&file)
+	if err != nil {
+		app.errorLog.Println("Error decoding task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Deleting files for task with id %s\n", id)
+	url := fmt.Sprintf("%s/files/%s", app.apis.tasks, id)
+	err = app.deleteApiContent(url, file)
+	if err != nil {
+		app.errorLog.Println("Error deleting files for task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Files for task with id %s were deleted\n", id)
+}
+
+func (app *application) assignTaskById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Printf("Assigning task: %v\n", r.Body)
+
+	var inCharge models.InCharge
+	err := json.NewDecoder(r.Body).Decode(&inCharge)
+	if err != nil {
+		app.errorLog.Println("Error decoding task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Assigning task with id %s\n", id)
+	url := fmt.Sprintf("%s/assign/%s", app.apis.tasks, id)
+	err = app.putApiContent(url, inCharge)
+	if err != nil {
+		app.errorLog.Println("Error assigning task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Task with id %s was assigned\n", id)
+}
+
+func (app *application) completeTaskById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting completed task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Printf("Completing task: %v\n", r.Body)
+
+	app.infoLog.Printf("Completing task with id %s\n", id)
+	url := fmt.Sprintf("%s/complete/%s", app.apis.tasks, id)
+	err := app.putApiContent(url, nil)
+	if err != nil {
+		app.errorLog.Println("Error completing task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Task with id %s was completed\n", id)
+}
+
+func (app *application) acceptTaskById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error accepting task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Printf("Accepting task: %v\n", r.Body)
+
+	app.infoLog.Printf("Accepting task with id %s\n", id)
+	url := fmt.Sprintf("%s/accept/%s", app.apis.tasks, id)
+	err := app.putApiContent(url, nil)
+	if err != nil {
+		app.errorLog.Println("Error accepting task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Task with id %s was accepted\n", id)
+}
+
+func (app *application) rejectTaskById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error rejecting task id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Printf("Rejecting task: %v\n", r.Body)
+
+	app.infoLog.Printf("Rejecting task with id %s\n", id)
+	url := fmt.Sprintf("%s/reject/%s", app.apis.tasks, id)
+	err := app.putApiContent(url, nil)
+	if err != nil {
+		app.errorLog.Println("Error rejecting task: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Task with id %s was rejected\n", id)
 }

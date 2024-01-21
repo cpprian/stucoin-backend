@@ -180,3 +180,83 @@ func (m *TaskModel) SaveFilesById(id string, file models.File) (*mongo.UpdateRes
 
 	return res, nil
 }
+
+func (m *TaskModel) DeleteFileById(id string, file models.File) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$pull": bson.M{"files": file}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (m *TaskModel) AssignTaskById(id string, inCharge models.InCharge) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"in_charge": inCharge.InCharge, "completed": "INCOMPLETED"}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (m *TaskModel) CompleteTaskById(id string) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"completed": "COMPLETED"}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (m *TaskModel) AcceptTaskById(id string) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"completed": "ACCEPTED"}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (m *TaskModel) RejectTaskById(id string) (*mongo.UpdateResult, error) {
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx := context.TODO()
+
+	res, err := m.C.UpdateOne(ctx, bson.M{"_id": p}, bson.M{"$set": bson.M{"completed": "ABORTED"}})
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}

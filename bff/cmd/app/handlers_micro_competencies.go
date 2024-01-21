@@ -135,7 +135,7 @@ func (app *application) deleteMicroCompetency(w http.ResponseWriter, r *http.Req
 
 	app.infoLog.Printf("Deleting micro competence with id %s\n", id)
 	url := fmt.Sprintf("%s/%s", app.apis.microCompetencies, id)
-	err := app.deleteApiContent(url)
+	err := app.deleteApiContent(url, nil)
 	if err != nil {
 		app.errorLog.Println("Error deleting micro competence: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

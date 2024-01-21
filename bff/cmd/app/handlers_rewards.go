@@ -135,7 +135,7 @@ func (app *application) deleteReward(w http.ResponseWriter, r *http.Request) {
 
 	app.infoLog.Printf("Deleting reward with id %s\n", id)
 	url := fmt.Sprintf("%s/%s", app.apis.rewards, id)
-	err := app.deleteApiContent(url)
+	err := app.deleteApiContent(url, nil)
 	if err != nil {
 		app.errorLog.Println("Error deleting reward: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

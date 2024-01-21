@@ -330,3 +330,103 @@ func (app *application) saveFilesById(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (app *application) deleteFileById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Deleting file from task with id %s\n", id)
+
+	var file models.File
+	err := json.NewDecoder(r.Body).Decode(&file)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("\nFiles:", file)
+	_, err = app.tasks.DeleteFileById(id, file)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	app.infoLog.Println("File was deleted from task with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func (app *application) assignTaskById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Assigning task with id %s\n", id)
+
+	var inCharge models.InCharge
+	err := json.NewDecoder(r.Body).Decode(&inCharge)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("\nInCharge:", inCharge)
+	_, err = app.tasks.AssignTaskById(id, inCharge)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("Task was assigned with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func (app *application) completeTaskById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Completing task with id %s\n", id)
+
+	_, err := app.tasks.CompleteTaskById(id)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("Task was completed with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func (app *application) acceptTaskById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Accepting task with id %s\n", id)
+
+	_, err := app.tasks.AcceptTaskById(id)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("Task was accepted with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func (app *application) rejectTaskById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Rejecting task with id %s\n", id)
+
+	_, err := app.tasks.RejectTaskById(id)
+	if err != nil {
+		app.errorLog.Println("Error:", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("Task was rejected with id:", id)
+
+	w.WriteHeader(http.StatusOK)
+}

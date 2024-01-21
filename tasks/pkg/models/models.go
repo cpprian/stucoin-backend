@@ -49,3 +49,7 @@ type File struct {
 }
 
 type Files []File
+
+type InCharge struct {
+	InCharge string `bson:"in_charge"`
+}
