@@ -276,3 +276,49 @@ func (m *TaskModel) UpdatePointsById(id string, points models.Points) (*mongo.Up
 
 	return res, nil
 }
+
+func (m *TaskModel) GetActiveUserTasks(id string) ([]models.Task, error) {
+	ctx := context.TODO()
+	var tasks []models.Task
+
+	filter := bson.M{
+		"$or": []bson.M{
+			{"in_charge": id},
+			{"owner": id},
+		},
+		"completed": bson.M{"$in": []string{"INCOMPLETED", "OPEN", "COMPLETED"}},
+	}
+	cursor, err := m.C.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = cursor.All(ctx, &tasks); err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}
+
+func (m *TaskModel) GetHistoryUserTasks(id string) ([]models.Task, error) {
+	ctx := context.TODO()
+	var tasks []models.Task
+
+	filter := bson.M{
+		"$or": []bson.M{
+			{"in_charge": id},
+			{"owner": id},
+		},
+		"completed": bson.M{"$in": []string{"ACCEPTED", "ABORTED"}},
+	}
+	cursor, err := m.C.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = cursor.All(ctx, &tasks); err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}

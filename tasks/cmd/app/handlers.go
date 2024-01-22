@@ -455,3 +455,57 @@ func (app *application) updatePointsById(w http.ResponseWriter, r *http.Request)
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (app *application) getActiveUserTasks(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Getting active tasks from user with id %s\n", id)
+
+	tasks, err := app.tasks.GetActiveUserTasks(id)
+	if err != nil {
+		app.errorLog.Println("Error getting active tasks: ", err)
+		app.serverError(w, err)
+		return
+	}
+
+	// Convert task list into json encoding
+	b, err := json.Marshal(tasks)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("\nActive tasks were sent")
+
+	// Send response
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(b)
+}
+
+func (app *application) getHistoryUserTasks(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	app.infoLog.Printf("Getting history tasks from user with id %s\n", id)
+
+	tasks, err := app.tasks.GetHistoryUserTasks(id)
+	if err != nil {
+		app.errorLog.Println("Error getting history tasks: ", err)
+		app.serverError(w, err)
+		return
+	}
+
+	// Convert task list into json encoding
+	b, err := json.Marshal(tasks)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		app.serverError(w, err)
+		return
+	}
+
+	app.infoLog.Println("\nHistory tasks were sent")
+
+	// Send response
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(b)
+}

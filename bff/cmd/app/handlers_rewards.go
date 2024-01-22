@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/cpprian/stucoin-backend/rewards/pkg/models"
@@ -23,14 +24,25 @@ func (app *application) createReward(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Creating reward: %v\n", reward)
-	_, err = app.postApiContent(app.apis.rewards, reward)
+	resp, err := app.postApiContent(app.apis.rewards, reward)
 	if err != nil {
 		app.errorLog.Println("Error creating reward: ", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-
+	defer resp.Body.Close()
 	app.infoLog.Println("Reward was created")
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		app.errorLog.Println("Error reading response body: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	app.infoLog.Println("Response: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
 }
 
 func (app *application) getRewardById(w http.ResponseWriter, r *http.Request) {
@@ -101,6 +113,18 @@ func (app *application) getAllRewards(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.infoLog.Printf("Rewards: %v\n", rewards)
+
+	body, err := json.Marshal(rewards)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("Body to send: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
 }
 
 func (app *application) updateReward(w http.ResponseWriter, r *http.Request) {

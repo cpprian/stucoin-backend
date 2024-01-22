@@ -22,6 +22,8 @@ func (app *application) routes() *mux.Router {
 	router.HandleFunc("/tasks/accept/{id}", app.acceptTaskById).Methods("PUT")
 	router.HandleFunc("/tasks/reject/{id}", app.rejectTaskById).Methods("PUT")
 	router.HandleFunc("/tasks/points/{id}", app.updatePointsById).Methods("PUT")
+	router.HandleFunc("/tasks/active/{id}", app.getActiveUserTasks).Methods("GET")
+	router.HandleFunc("/tasks/history/{id}", app.getHistoryUserTasks).Methods("GET")
 
 	return router
 }

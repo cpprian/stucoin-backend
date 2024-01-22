@@ -479,3 +479,87 @@ func (app *application) updatePointsById(w http.ResponseWriter, r *http.Request)
 
 	app.infoLog.Printf("Points for task with id %s were updated\n", id)
 }
+
+func (app *application) getUserActiveTasks(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting user id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("URL: ", app.apis.tasks)
+	url := fmt.Sprintf("%s/active/%s", app.apis.tasks, id)
+	resp, err := app.getApiContent(url)
+	if err != nil {
+		app.errorLog.Println("Error getting tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close();
+
+	var tasks []models.Task
+	err = json.NewDecoder(resp.Body).Decode(&tasks)
+	if err != nil {
+		app.errorLog.Println("Error decoding tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Tasks: %+v\n", tasks)
+
+	body, err := json.Marshal(tasks)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("Body to send: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
+}
+
+func (app *application) getUserHistoryTasks(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		app.errorLog.Println("Error getting user id")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("URL: ", app.apis.tasks)
+	url := fmt.Sprintf("%s/history/%s", app.apis.tasks, id)
+	resp, err := app.getApiContent(url)
+	if err != nil {
+		app.errorLog.Println("Error getting tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close();
+
+	var tasks []models.Task
+	err = json.NewDecoder(resp.Body).Decode(&tasks)
+	if err != nil {
+		app.errorLog.Println("Error decoding tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Printf("Tasks: %+v\n", tasks)
+
+	body, err := json.Marshal(tasks)
+	if err != nil {
+		app.errorLog.Println("Error marshalling tasks: ", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	app.infoLog.Println("Body to send: ", string(body))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
+}

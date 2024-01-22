@@ -28,6 +28,8 @@ func (app *application) routes() http.Handler {
 	router.HandleFunc("/tasks/accept/{id}", app.acceptTaskById).Methods("PUT")
 	router.HandleFunc("/tasks/reject/{id}", app.rejectTaskById).Methods("PUT")
 	router.HandleFunc("/tasks/points/{id}", app.updatePointsById).Methods("PUT")
+	router.HandleFunc("/tasks/active/{id}", app.getUserActiveTasks).Methods("GET")
+	router.HandleFunc("/tasks/history/{id}", app.getUserHistoryTasks).Methods("GET")
 
 	// rewards routes
 	router.HandleFunc("/rewards", app.getAllRewards).Methods("GET")
