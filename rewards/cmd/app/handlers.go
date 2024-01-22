@@ -6,6 +6,7 @@ import (
 
 	"github.com/cpprian/stucoin-backend/rewards/pkg/models"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func (app *application) all(w http.ResponseWriter, r *http.Request) {
@@ -114,7 +115,7 @@ func (app *application) insertReward(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println("\nReward:", reward)
 
 	// Insert reward
-	_, err = app.rewards.InsertReward(&reward)
+	resp, err := app.rewards.InsertReward(&reward)
 	if err != nil {
 		app.errorLog.Println("Error:", err)
 		app.serverError(w, err)
@@ -124,8 +125,26 @@ func (app *application) insertReward(w http.ResponseWriter, r *http.Request) {
 
 	app.infoLog.Println("Reward was inserted with data:", reward)
 
-	// Send response
+	// Encode response as JSON
+	responseData := struct {
+		InsertedID string `json:"insertedID"`
+	}{
+		InsertedID: resp.InsertedID.(primitive.ObjectID).Hex(),
+	}
+	app.infoLog.Println("\nResponse:", responseData)
+
+	encodedResponse, err := json.Marshal(responseData)
+	if err != nil {
+		app.errorLog.Println("Error encoding response:", err)
+		app.serverError(w, err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Send JSON response
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	w.Write(encodedResponse)
 }
 
 func (app *application) updateReward(w http.ResponseWriter, r *http.Request) {
