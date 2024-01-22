@@ -26,7 +26,7 @@ func main() {
 	serverAddr := flag.String("serverAddr", "", "HTTP server network address")
 	serverPort := flag.Int("serverPort", 8000, "HTTP server network port")
 	tasksAPI := flag.String("tasksAPI", "http://localhost:4000/tasks", "Tasks API endpoint")
-	rewardsAPI := flag.String("rewardsAPI", "http://localhost:4000/rewards", "Rewards API endpoint")
+	rewardsAPI := flag.String("rewardsAPI", "http://localhost:4001/rewards", "Rewards API endpoint")
 	microCompetenciesAPI := flag.String("microCompetenciesAPI", "http://localhost:4000/micro-competencies", "Micro competencies API endpoint")
 	flag.Parse()
 
