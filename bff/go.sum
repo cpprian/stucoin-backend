@@ -4,6 +4,8 @@ github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240120114036-33ef
 github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240120114036-33ef403d0ccd/go.mod h1:wsJO57hmf3H+ktc9f8z18R+HWjqIbxhjoEXCeZMiZaI=
 github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240127174222-b373d81634ea h1:VgZEvTojcHar9mvn5jVK6nzHq4nn9a38wNrNjzBeNVQ=
 github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240127174222-b373d81634ea/go.mod h1:wsJO57hmf3H+ktc9f8z18R+HWjqIbxhjoEXCeZMiZaI=
+github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240128201204-83e1e0e96bb8 h1:PzGRRRnYs+p/SWMy5Bb0BDgGZbZGicnX2xO3wVChOlA=
+github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240128201204-83e1e0e96bb8/go.mod h1:wsJO57hmf3H+ktc9f8z18R+HWjqIbxhjoEXCeZMiZaI=
 github.com/cpprian/stucoin-backend/rewards v0.0.0-20240117154734-7bd36438c2d9 h1:DcDGcOLSCYtcxQgsItQ16d1NsIJwcdvTuu+CFc8UaeE=
 github.com/cpprian/stucoin-backend/rewards v0.0.0-20240117154734-7bd36438c2d9/go.mod h1:RT/7iuPd0gQ9vcWdltnsvUCvQ8hLfQ2rb6Qlb9HWbVQ=
 github.com/cpprian/stucoin-backend/rewards v0.0.0-20240120114036-33ef403d0ccd h1:uqPXtO/lQ6nLb6aJ/Mg8bVUwqomp6t2lQVmSBKPQxbw=
