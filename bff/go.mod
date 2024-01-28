@@ -3,8 +3,8 @@ module github.com/cpprian/stucoin-backend/bff
 go 1.21.6
 
 require (
-	github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240120114036-33ef403d0ccd
-	github.com/cpprian/stucoin-backend/rewards v0.0.0-20240120114036-33ef403d0ccd
+	github.com/cpprian/stucoin-backend/micro-competencies v0.0.0-20240127174222-b373d81634ea
+	github.com/cpprian/stucoin-backend/rewards v0.0.0-20240127174222-b373d81634ea
 	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	github.com/rs/cors v1.10.1

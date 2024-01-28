@@ -1,14 +1,11 @@
 package models
 
-import (
-	"time"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
-)
+import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type EnumCompleted string
 
 const (
+	Open 	  	EnumCompleted = "OPEN"
 	Completed   EnumCompleted = "COMLETED"
 	Incompleted EnumCompleted = "INCOMPLETED"
 	Aborted     EnumCompleted = "ABORTED"
@@ -22,12 +19,9 @@ type Task struct {
 	CoverImage  string             `bson:"cover_image"`
 	Points      int                `bson:"points"`
 	Completed   EnumCompleted      `bson:"completed"`
-	CreatedAt   time.Time          `bson:"created_at"`
-	UpdatedAt   time.Time          `bson:"updated_at"`
 	Owner       string             `bson:"owner"`
 	InCharge    string             `bson:"in_charge"`
 	Files       []File             `bson:"files"`
-	Tags        []string           `bson:"tags"`
 }
 
 type CoverImage struct {

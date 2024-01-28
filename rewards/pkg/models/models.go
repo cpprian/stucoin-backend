@@ -7,7 +7,4 @@ type Reward struct {
 	Name        string             `bson:"name"`
 	Description string             `bson:"description"`
 	Points      int                `bson:"points"`
-	OrgName     string             `bson:"orgName"`
-	OrgLocation string             `bson:"orgLocation"`
-	Image       string             `bson:"image"`
 }
