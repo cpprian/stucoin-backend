@@ -65,20 +65,6 @@ func (m *TaskModel) FindById(id string) (*models.Task, error) {
 	return &task, nil
 }
 
-func (m *TaskModel) FindByTitle(title string) (*models.Task, error) {
-	ctx := context.TODO()
-	var task models.Task
-
-	if err := m.C.FindOne(ctx, bson.M{"title": title}).Decode(&task); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, errors.New("no task found")
-		}
-		return nil, err
-	}
-
-	return &task, nil
-}
-
 func (m *TaskModel) InsertTask(task *models.Task) (*mongo.InsertOneResult, error) {
 	ctx := context.TODO()
 

@@ -96,40 +96,6 @@ func (app *application) findById(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-func (app *application) findByTitle(w http.ResponseWriter, r *http.Request) {
-	// Get taskname from request
-	taskname := mux.Vars(r)["taskname"]
-	app.infoLog.Printf("Getting task with taskname %s\n", taskname)
-
-	// Get task
-	task, err := app.tasks.FindByTitle(taskname)
-	if err != nil {
-		if err.Error() == "no task found" {
-			app.infoLog.Println("Task not found")
-			return
-		}
-		app.errorLog.Println("Error getting task: ", err)
-		app.serverError(w, err)
-		return
-	}
-	app.infoLog.Println("\nTask:", task)
-
-	// Convert task into json encoding
-	b, err := json.Marshal(task)
-	if err != nil {
-		app.errorLog.Println("Error marshalling task: ", err)
-		app.serverError(w, err)
-		return
-	}
-
-	app.infoLog.Println("\nTask was sent")
-
-	// Send response
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(b)
-}
-
 func (app *application) insertTask(w http.ResponseWriter, r *http.Request) {
 	// Get task from request
 	var task models.Task
