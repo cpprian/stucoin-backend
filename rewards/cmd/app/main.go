@@ -22,7 +22,7 @@ type application struct {
 
 func main() {
 	serverAddr := flag.String("serverAddr", "", "HTTP server network address")
-	serverPort := flag.Int("serverPort", 4001, "HTTP server network port")
+	serverPort := flag.Int("serverPort", 4000, "HTTP server network port")
 	mongoURI := flag.String("mongoURI", "mongodb://localhost:27017", "MongoDB connection URI")
 	mongoDB := flag.String("mongoDB", "rewards", "MongoDB database name")
 	enableCredentials := flag.Bool("enableCredentials", false, "Enable credentials for mongodb connection")
